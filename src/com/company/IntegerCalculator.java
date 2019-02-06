@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class IntegerCalculator
 {
     private long answer;
-    private ArrayList<String> history = new ArrayList<>();
+    private ArrayList<MathStep> history = new ArrayList<>();
     public static void main(String[] args)
     {
         IntegerCalculator calc = new IntegerCalculator();
@@ -25,8 +25,7 @@ public class IntegerCalculator
                 " then enter e, E or exit.");
         do
         {
-            System.out.println("If you are doing a math problem enter a command followed by a number, " +
-                    "else enter a command:");
+            System.out.println("Enter a command:");
             String command = input.next();
 
             switch (command)
@@ -65,6 +64,16 @@ public class IntegerCalculator
                     displayHistory();
                     displayAnswer();
                     break;
+                case "c":
+                case "C":
+                case "Clear":
+                    clear();
+                    break;
+                case "ch":
+                case "CH":
+                case "clear History":
+                    history.clear();
+                    break;
                 case "e":
                 case "E":
                 case "Exit":
@@ -81,30 +90,39 @@ public class IntegerCalculator
     private void add(long number)
     {
         this.answer += number;
-        history.add("Add" + number);
+        MathStep mathStep = new MathStep("Add", number);
+        history.add(mathStep);
     }
     private void subtract(long number)
     {
         this.answer -= number;
-        history.add("Subtract" + number);
+        MathStep mathStep = new MathStep("Subtract", number);
+        history.add(mathStep);
     }
     private void multiply(long number)
     {
         this.answer *= number;
-        history.add("Multiply" + number);
+        MathStep mathStep = new MathStep("Multiply", number);
+        history.add(mathStep);
     }
     private void divide(long number)
     {
         this.answer /= number;
-        history.add("Divide" + number);
+        MathStep mathStep = new MathStep("Divide", number);
+        history.add(mathStep);
     }
 
     private void displayHistory()
     {
-        for (String inputs: history)
+        for (MathStep mathStep: history)
         {
-            System.out.println(inputs);
+            System.out.println(mathStep.getAction() + mathStep.getValue());
         }
+    }
+
+    private void clear()
+    {
+        this.answer = 0;
     }
 
     private void displayAnswer()
